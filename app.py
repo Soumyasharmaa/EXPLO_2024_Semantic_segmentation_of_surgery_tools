@@ -56,6 +56,8 @@ output1 = 'U_Net_model.h5'
 # Attempt to download the file
 try:
     gdown.download(url1, output1, quiet=False)
+    import warnings
+    warnings.simplefilter(action='ignore', category=FutureWarning)
     print("Download successful!")
 except Exception as e:
     print("Error downloading file:", e)
