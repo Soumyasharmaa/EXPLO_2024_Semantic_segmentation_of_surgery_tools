@@ -41,10 +41,33 @@ def make_prediction(model,image,shape):
     mask = np.reshape(mask,(224,224))
     return mask
 
-# Load the saved model
-with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = load_model('https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link')  # Replace with your model file path
+# # Load the saved model
+# with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
+#     model = load_model('https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link')  # Replace with your model file path
+#####################################################################
+import gdown
+import os
 
+# Function to download model from Google Drive
+def download_model_from_drive(url, output_path):
+    gdown.download(url, output=output_path, quiet=False)
+
+# Google Drive URL for the model (replace with your own URL)
+model_url = 'https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link'
+
+# Path where you want to save the downloaded model
+model_path = '/path/to/save/model.h5'  # Adjust this path as per your local setup
+
+# Download the model from Google Drive
+download_model_from_drive(model_url, model_path)
+
+# Load the model
+try:
+    model = load_model(model_path)
+    st.write("Model loaded successfully!")
+except Exception as e:
+    st.error(f"Error loading model: {e}")
+########################################################################################
 ######################################### vGG 16
 from skimage.io import imread
 from skimage.transform import resize
