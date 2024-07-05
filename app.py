@@ -66,12 +66,7 @@ except Exception as e:
 custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
 
 # Load the model
-try:
-    model = load_model('U_Net_model.h5', custom_objects=custom_objects)
-    print("Model loaded successfully.")
-    # Now you can use 'model' for predictions, evaluation, etc.
-except IOError:
-    print("Error: Unable to load model from U_Net_model.h5. Check the file path or download process.")
+model = load_model('U_Net_model.h5', custom_objects=custom_objects)
 
 ######################################### vGG 16
 from skimage.io import imread
