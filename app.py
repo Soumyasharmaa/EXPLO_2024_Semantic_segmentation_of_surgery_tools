@@ -40,24 +40,13 @@ def make_prediction(model,image,shape):
       return mask
     mask = np.reshape(mask,(224,224))
     return mask
-########################
 
-# Path to your model file
-model_path = 'Soumyasharmaa/EXPLO_2024_Semantic_segmentation_of_surgery_tools/best_model_final.h5'
-
-
-# Check if the model file exists
-if os.path.exists(model_path):
-    print(f"Model file found at {model_path}.")
-    model = load_model(model_path)
-else:
-    raise FileNotFoundError(f"Model file not found at {model_path}")
 
 
 
 # Load the saved model
 with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = load_model('best_model_final.h5')  # Replace with your model file path
+    model = load_model('Soumyasharmaa/EXPLO_2024_Semantic_segmentation_of_surgery_tools/best_model_final.h5')  # Replace with your model file path
 
 ######################################### vGG 16
 from skimage.io import imread
