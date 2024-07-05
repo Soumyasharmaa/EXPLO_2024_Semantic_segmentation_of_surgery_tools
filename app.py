@@ -52,7 +52,13 @@ def make_prediction(model,image,shape):
 url1 = 'https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link'
 output1 = 'U_Net_model.h5'
 
-gdown.download(url1, output1, quiet=False)
+# Attempt to download the file
+try:
+    gdown.download(url1, output1, quiet=False)
+    print("Download successful!")
+except Exception as e:
+    print("Error downloading file:", e)
+    
 with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
     model = load_model(output1)  # Replace with your model file path
 
