@@ -15,7 +15,7 @@ from PIL import Image
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 ##########################################################
-
+import requests
 import urllib.request
 import os
 import tempfile
