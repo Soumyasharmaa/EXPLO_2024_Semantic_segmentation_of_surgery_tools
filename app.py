@@ -123,8 +123,8 @@ custom_objects = {'BatchNormalization': tf.keras.layers.BatchNormalization}
 # Register the custom metric function
 tf.keras.utils.get_custom_objects()['iou_score'] = iou_score
 tf.keras.utils.get_custom_objects()['f1-score'] = f1_score
-# Load the model with custom objects
-VGG16 = tf.keras.models.load_model('/content/drive/MyDrive/Explo_2024_sem4/VGG16.h5', custom_objects=custom_objects)
+# # Load the model with custom objects
+# VGG16 = tf.keras.models.load_model('/content/drive/MyDrive/Explo_2024_sem4/VGG16.h5', custom_objects=custom_objects)
 
 st.title('Exploratory Project : Surgery Tools segmentation application ')
 
