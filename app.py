@@ -43,7 +43,7 @@ def make_prediction(model,image,shape):
 
 # Load the saved model
 with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = load_model('/content/drive/MyDrive/Explo_2024_sem4/U_NET_Pretrained')  # Replace with your model file path
+    model = load_model('https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link')  # Replace with your model file path
 
 ######################################### vGG 16
 from skimage.io import imread
