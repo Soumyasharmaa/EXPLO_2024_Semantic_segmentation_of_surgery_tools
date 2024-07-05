@@ -16,18 +16,6 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 
 
-url1 = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=sharing'
-output1 = 'best_model_final3'
-
-gdown.download(url1, output1, quiet=False)
-
-# Load the saved model
-with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = model = load_model(output1, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})  # Replace with your model file path
-
-
-
-
 def jaccard_distance_loss(y_true, y_pred,smooth = 100):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
     sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
@@ -45,6 +33,20 @@ def iou_metric(y_true, y_pred, smooth=1):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
     union = K.sum(y_true, axis=-1) + K.sum(y_pred, axis=-1) - intersection
     return (intersection + smooth) / (union + smooth)
+
+url1 = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=sharing'
+output1 = 'best_model_final3'
+
+gdown.download(url1, output1, quiet=False)
+
+# Load the saved model
+with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
+    model = model = load_model(output1, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})  # Replace with your model file path
+
+
+
+
+
 
 def make_prediction(model,image,shape):
     img = img_to_array(load_img(image,target_size=shape))
