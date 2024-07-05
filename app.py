@@ -48,21 +48,14 @@ def make_prediction(model,image,shape):
 # with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
 #     model = load_model('Soumyasharmaa/EXPLO_2024_Semantic_segmentation_of_surgery_tools/best_model_final.h5')  # Replace with your model file path
 #############################################
-import gdown
-#@st.experimental_singleton
-def download_weights(url):
-    gdown.download(url, "weight_path", quiet=False)
+# Download the model weights
+url1 = 'https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link'
+output1 = 'U_Net_model.h5'
 
+gdown.download(url1, output1, quiet=False)
+with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
+    model = load_model(output1)  # Replace with your model file path
 
-#@st.experimental_singleton
-def load_model():
-    print(" MODEL LOADED !!!")
-    return torch.load("weight_path", map_location=device)
-
-url = "https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link"
-
-download_weights(url)
-model = load_model()
 ######################################### vGG 16
 from skimage.io import imread
 from skimage.transform import resize
