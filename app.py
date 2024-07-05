@@ -48,6 +48,7 @@ def make_prediction(model,image,shape):
 # with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
 #     model = load_model('Soumyasharmaa/EXPLO_2024_Semantic_segmentation_of_surgery_tools/best_model_final.h5')  # Replace with your model file path
 #############################################
+import gdown
 #@st.experimental_singleton
 def download_weights(url):
     gdown.download(url, "weight_path", quiet=False)
