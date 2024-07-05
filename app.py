@@ -53,14 +53,11 @@ def make_prediction(image,shape):
 url1 = 'https://drive.google.com/uc?id=1Uko0xXO5k0clmRO5F1kOzyiJun69con9'
 output1 = 'U_Net_model.h5'
 
-# Attempt to download the file
-try:
-    gdown.download(url1, output1, quiet=False)
-    import warnings
-    warnings.simplefilter(action='ignore', category=FutureWarning)
-    print("Download successful!")
-except Exception as e:
-    print("Error downloading file:", e)
+
+gdown.download(url1, output1, quiet=False)
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 
 # Assuming you have custom loss and metrics defined
 custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
