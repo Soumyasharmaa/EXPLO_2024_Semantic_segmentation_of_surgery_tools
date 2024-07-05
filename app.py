@@ -14,8 +14,27 @@ from PIL import Image
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
+##########################################################
+import requests
+from io import BytesIO
+
+# Replace with your Google Drive direct download link
+model_weights_url = 'https://drive.google.com/uc?id=<your_file_id>&export=download'
+
+# Function to download model weights
+def download_model_weights(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return BytesIO(response.content)
+    else:
+        raise Exception(f"Failed to download model weights: {response.status_code}")
 
 
+
+st.write("Downloading model weights...")
+model_weights_file = download_model_weights(model_weights_url)
+
+##################################################################
 def jaccard_distance_loss(y_true, y_pred,smooth = 100):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
     sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
@@ -53,7 +72,7 @@ def make_prediction(model,image,shape):
 
 
 # Load the saved model
-model = load_model('/content/drive/MyDrive/Explo_2024_sem4/best_model_final3', custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})
+model = load_model(model_weights_file, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})
 
 
 ######################################### vGG 16
