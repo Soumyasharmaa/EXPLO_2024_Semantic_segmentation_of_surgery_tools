@@ -11,11 +11,9 @@ import cv2
 #from streamlit import caching
 from PIL import Image
 #from preprocessing_images import *
-from skimage.io import imread
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
-
 
 
 def jaccard_distance_loss(y_true, y_pred,smooth = 100):
@@ -29,47 +27,6 @@ def dice_coef(y_true, y_pred):
     y_pred_f = K.flatten(y_pred)
     intersection = K.sum(y_true_f * y_pred_f)
     return (2. * intersection + K.epsilon()) / (K.sum(y_true_f) + K.sum(y_pred_f) + K.epsilon())
-
-# Define the Intersection over Union (IoU) metric
-def iou_metric(y_true, y_pred, smooth=1):
-    intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
-    union = K.sum(y_true, axis=-1) + K.sum(y_pred, axis=-1) - intersection
-    return (intersection + smooth) / (union + smooth)
-##########################################################
-import requests
-import urllib.request
-import os
-import tempfile
-
-def download_model_weights(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        # Create a temporary file
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        temp_file.write(response.content)
-        temp_file.close()
-        return temp_file.name
-    else:
-        raise Exception(f"Failed to download model weights: {response.status_code}")
-
-
-model_weights_url = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=drive_link'
-
-# Download and save model weights
-model_weights_file = download_model_weights(model_weights_url)
-
-# Load model from the saved file
-try:
-    model = load_model(model_weights_file, custom_objects={
-        'jaccard_distance_loss': jaccard_distance_loss,
-        'dice_coef': dice_coef,
-        'iou_metric': iou_metric
-    })
-    st.write("Model loaded successfully!")
-except Exception as e:
-    st.error(f"Error loading model: {e}")
-##################################################################
-
 
 def make_prediction(model,image,shape):
     img = img_to_array(load_img(image,target_size=shape))
@@ -85,13 +42,8 @@ def make_prediction(model,image,shape):
     return mask
 
 # Load the saved model
-# with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-#     model = load_model('https://drive.google.com/file/d/1-hmf_Fd3P4xAIFXt768GEefN85tzAWQT/view?usp=drive_link')  # Replace with your model file path
-
-
-# # Load the saved model
-# model = load_model(model_weights_file, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})
-
+with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
+    model = load_model('/content/drive/MyDrive/Explo_2024_sem4/U_NET_Pretrained')  # Replace with your model file path
 
 ######################################### vGG 16
 from skimage.io import imread
