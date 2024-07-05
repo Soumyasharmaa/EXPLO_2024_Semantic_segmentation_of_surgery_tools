@@ -28,6 +28,12 @@ def dice_coef(y_true, y_pred):
     intersection = K.sum(y_true_f * y_pred_f)
     return (2. * intersection + K.epsilon()) / (K.sum(y_true_f) + K.sum(y_pred_f) + K.epsilon())
 
+# Define the Intersection over Union (IoU) metric
+def iou_metric(y_true, y_pred, smooth=1):
+    intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
+    union = K.sum(y_true, axis=-1) + K.sum(y_pred, axis=-1) - intersection
+    return (intersection + smooth) / (union + smooth)
+
 def make_prediction(model,image,shape):
     img = img_to_array(load_img(image,target_size=shape))
     img = np.expand_dims(img,axis=0)/255.
