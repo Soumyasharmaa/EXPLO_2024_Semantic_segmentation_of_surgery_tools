@@ -56,7 +56,8 @@ def download_model_from_drive(url, output_path):
 model_url = 'https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link'
 
 # Path where you want to save the downloaded model
-model_path = '/path/to/save/model.h5'  # Adjust this path as per your local setup
+current_dir = os.path.dirname(__file__)
+model_path = os.path.join(current_dir, 'model.h5')
 
 # Download the model from Google Drive
 download_model_from_drive(model_url, model_path)
