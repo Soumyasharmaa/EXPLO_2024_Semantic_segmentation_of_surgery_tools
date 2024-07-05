@@ -19,7 +19,7 @@ import requests
 from io import BytesIO
 
 # Replace with your Google Drive direct download link
-model_weights_url = 'https://drive.google.com/uc?id=<your_file_id>&export=download'
+model_weights_url = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=drive_link'
 
 # Function to download model weights
 def download_model_weights(url):
