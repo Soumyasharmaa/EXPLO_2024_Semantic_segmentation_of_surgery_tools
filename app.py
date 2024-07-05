@@ -51,7 +51,7 @@ def make_prediction(image,shape):
 # Download the model weights
 # URL and output file name
 url1 = 'https://drive.google.com/uc?id=1Uko0xXO5k0clmRO5F1kOzyiJun69con9'
-output1 = 'U_Net_model.h5'
+output1 = 'best_model_final.h5'
 
 
 gdown.download(url1, output1, quiet=False)
@@ -63,7 +63,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
 
 # Load the model
-model = load_model('U_Net_model.h5', custom_objects=custom_objects)
+model = load_model(output1, custom_objects=custom_objects)
 
 ######################################### vGG 16
 from skimage.io import imread
