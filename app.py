@@ -62,8 +62,15 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # Assuming you have custom loss and metrics defined
 custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
 
-# Load the model
-model = load_model(output1, custom_objects=custom_objects)
+# Assuming you have custom loss and metrics defined
+custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
+
+# Define your optimizer
+optimizer = Adam()
+
+# Load the model with optimizer and custom objects
+model = load_model(output1, custom_objects=custom_objects, compile=False)
+model.compile(optimizer=optimizer)  # Compile with the same optimizer settings used during training
 
 ######################################### vGG 16
 from skimage.io import imread
