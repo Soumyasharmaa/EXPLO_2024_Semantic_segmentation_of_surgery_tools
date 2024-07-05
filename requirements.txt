@@ -1,6 +1,6 @@
 tensorflow==2.14.0
 streamlit
-numpy
+numpy>=1.22.0,<1.24.0
 pandas
 matplotlib
 opencv-python
