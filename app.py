@@ -28,7 +28,7 @@ def dice_coef(y_true, y_pred):
     intersection = K.sum(y_true_f * y_pred_f)
     return (2. * intersection + K.epsilon()) / (K.sum(y_true_f) + K.sum(y_pred_f) + K.epsilon())
 
-def make_prediction(model,image,shape):
+def make_prediction(image,shape):
     img = img_to_array(load_img(image,target_size=shape))
     img = np.expand_dims(img,axis=0)/255.
     mask = model.predict(img)
@@ -73,7 +73,7 @@ from skimage.io import imread
 from skimage.transform import resize
 
 # function to predict result
-def predict_image(img_path, model):
+def predict_image(img_path):
     H = 480
     W = 480
     num_classes = 4
@@ -145,7 +145,7 @@ if option == 'U_Net':
         #img = load_preprocess_image(str(img))
 
         st.image(img/255.)
-        mask = make_prediction(model,image,(224,224,3))
+        mask = make_prediction(image,(224,224,3))
         mask2 = cv2.merge([mask,mask,mask]).astype('float32')
         #st.write(img.shape,mask2.shape)
         mask2 = cv2.resize(mask2,(img.shape[1],img.shape[0]))
