@@ -11,6 +11,7 @@ import cv2
 #from streamlit import caching
 from PIL import Image
 #from preprocessing_images import *
+from skimage.io import imread
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
