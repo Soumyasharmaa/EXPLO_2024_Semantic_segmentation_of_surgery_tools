@@ -5,4 +5,4 @@ matplotlib==3.5.2
 tensorflow==2.10.0
 opencv-python-headless==4.5.5.64
 Pillow==9.2.0
-
+requests
