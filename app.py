@@ -35,13 +35,13 @@ def iou_metric(y_true, y_pred, smooth=1):
     return (intersection + smooth) / (union + smooth)
 
 url1 = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=sharing'
-output1 = 'best_model_final3.h5'
+output1 = 'best_model_final3'
 
 gdown.download(url1, output1, quiet=False)
 
 # Load the saved model
 with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = model = load_model(output1, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})  # Replace with your model file path
+    model = load_model(output1, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})  # Replace with your model file path
 
 
 
