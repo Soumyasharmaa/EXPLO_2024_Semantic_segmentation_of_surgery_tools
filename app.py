@@ -49,7 +49,8 @@ def make_prediction(model,image,shape):
 #     model = load_model('Soumyasharmaa/EXPLO_2024_Semantic_segmentation_of_surgery_tools/best_model_final.h5')  # Replace with your model file path
 #############################################
 # Download the model weights
-url1 = 'https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link'
+# URL and output file name
+url1 = 'https://drive.google.com/uc?id=1Uko0xXO5k0clmRO5F1kOzyiJun69con9'
 output1 = 'U_Net_model.h5'
 
 # Attempt to download the file
@@ -59,8 +60,16 @@ try:
 except Exception as e:
     print("Error downloading file:", e)
 
-with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = load_model('U_Net_model.h5')  # Replace with your model file path
+# Assuming you have custom loss and metrics defined
+custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
+
+# Load the model
+try:
+    model = load_model('U_Net_model.h5', custom_objects=custom_objects)
+    print("Model loaded successfully.")
+    # Now you can use 'model' for predictions, evaluation, etc.
+except IOError:
+    print("Error: Unable to load model from U_Net_model.h5. Check the file path or download process.")
 
 ######################################### vGG 16
 from skimage.io import imread
