@@ -1,6 +1,6 @@
 
 from re import I
-from tensorflow.keras import backend as K
+#from tensorflow.keras import backend as K
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -16,30 +16,30 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 
 
-def jaccard_distance_loss(y_true, y_pred,smooth = 100):
-    intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
-    sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
-    jac = (intersection + smooth) / (sum_ - intersection + smooth)
-    return (1 - jac) * smooth
+# def jaccard_distance_loss(y_true, y_pred,smooth = 100):
+#     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
+#     sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
+#     jac = (intersection + smooth) / (sum_ - intersection + smooth)
+#     return (1 - jac) * smooth
 
-def dice_coef(y_true, y_pred):
-    y_true_f = K.flatten(y_true)
-    y_pred_f = K.flatten(y_pred)
-    intersection = K.sum(y_true_f * y_pred_f)
-    return (2. * intersection + K.epsilon()) / (K.sum(y_true_f) + K.sum(y_pred_f) + K.epsilon())
+# def dice_coef(y_true, y_pred):
+#     y_true_f = K.flatten(y_true)
+#     y_pred_f = K.flatten(y_pred)
+#     intersection = K.sum(y_true_f * y_pred_f)
+#     return (2. * intersection + K.epsilon()) / (K.sum(y_true_f) + K.sum(y_pred_f) + K.epsilon())
 
-def make_prediction(model,image,shape):
-    img = img_to_array(load_img(image,target_size=shape))
-    img = np.expand_dims(img,axis=0)/255.
-    mask = model.predict(img)
+# def make_prediction(model,image,shape):
+#     img = img_to_array(load_img(image,target_size=shape))
+#     img = np.expand_dims(img,axis=0)/255.
+#     mask = model.predict(img)
 
-    mask = (mask[0] > 0.5)*1
-#     print(np.unique(mask,return_counts=True))
-    if model == VGG16:
-      mask = np.reshape(mask,(960,960))
-      return mask
-    mask = np.reshape(mask,(224,224))
-    return mask
+#     mask = (mask[0] > 0.5)*1
+# #     print(np.unique(mask,return_counts=True))
+#     if model == VGG16:
+#       mask = np.reshape(mask,(960,960))
+#       return mask
+#     mask = np.reshape(mask,(224,224))
+#     return mask
 
 # Load the saved model
 # with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
