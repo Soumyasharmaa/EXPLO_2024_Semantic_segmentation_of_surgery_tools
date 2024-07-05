@@ -15,25 +15,37 @@ from PIL import Image
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 ##########################################################
-import requests
-from io import BytesIO
+import streamlit as st
+from tensorflow.keras.models import load_model
+import tempfile
 
-# Replace with your Google Drive direct download link
-model_weights_url = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=drive_link'
-
-# Function to download model weights
 def download_model_weights(url):
     response = requests.get(url)
     if response.status_code == 200:
-        return BytesIO(response.content)
+        # Create a temporary file
+        temp_file = tempfile.NamedTemporaryFile(delete=False)
+        temp_file.write(response.content)
+        temp_file.close()
+        return temp_file.name
     else:
         raise Exception(f"Failed to download model weights: {response.status_code}")
 
 
+model_weights_url = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=drive_link'
 
-st.write("Downloading model weights...")
+# Download and save model weights
 model_weights_file = download_model_weights(model_weights_url)
 
+# Load model from the saved file
+try:
+    model = load_model(model_weights_file, custom_objects={
+        'jaccard_distance_loss': jaccard_distance_loss,
+        'dice_coef': dice_coef,
+        'iou_metric': iou_metric
+    })
+    st.write("Model loaded successfully!")
+except Exception as e:
+    st.error(f"Error loading model: {e}")
 ##################################################################
 def jaccard_distance_loss(y_true, y_pred,smooth = 100):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
@@ -71,8 +83,8 @@ def make_prediction(model,image,shape):
 #     model = load_model('https://drive.google.com/file/d/1-hmf_Fd3P4xAIFXt768GEefN85tzAWQT/view?usp=drive_link')  # Replace with your model file path
 
 
-# Load the saved model
-model = load_model(model_weights_file, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})
+# # Load the saved model
+# model = load_model(model_weights_file, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})
 
 
 ######################################### vGG 16
