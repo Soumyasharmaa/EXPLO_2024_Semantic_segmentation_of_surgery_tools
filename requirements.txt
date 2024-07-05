@@ -1,0 +1,9 @@
+streamlit
+numpy 
+pandas
+time 
+matplotlib
+re
+tensorflow
+opencv-python-headless
+PIL
