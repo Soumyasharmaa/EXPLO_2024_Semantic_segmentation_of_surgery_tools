@@ -2,7 +2,6 @@ streamlit
 numpy 
 pandas
 matplotlib
-re
 tensorflow
 opencv-python-headless
 PIL
