@@ -45,17 +45,18 @@ def make_prediction(model,image,shape):
 # with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
 #     model = load_model('https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link')  # Replace with your model file path
 #####################################################################
-import gdown
-import os
-
 # Function to download model from Google Drive
 def download_model_from_drive(url, output_path):
-    gdown.download(url, output=output_path, quiet=False)
+    try:
+        gdown.download(url, output=output_path, quiet=False)
+    except Exception as e:
+        st.error(f"Error downloading model: {e}")
+        sys.exit(1)
 
 # Google Drive URL for the model (replace with your own URL)
 model_url = 'https://drive.google.com/file/d/1Uko0xXO5k0clmRO5F1kOzyiJun69con9/view?usp=drive_link'
 
-# Path where you want to save the downloaded model
+# Path where you want to save the downloaded model (in the same directory as app.py)
 current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, 'model.h5')
 
