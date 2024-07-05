@@ -42,8 +42,13 @@ def make_prediction(model,image,shape):
     return mask
 
 # Load the saved model
-with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = load_model('/content/drive/MyDrive/Explo_2024_sem4/U_NET_Pretrained')  # Replace with your model file path
+# with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
+#     model = load_model('https://drive.google.com/file/d/1-hmf_Fd3P4xAIFXt768GEefN85tzAWQT/view?usp=drive_link')  # Replace with your model file path
+
+
+# Load the saved model
+model = load_model('/content/drive/MyDrive/Explo_2024_sem4/best_model_final3', custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})
+
 
 ######################################### vGG 16
 from skimage.io import imread
