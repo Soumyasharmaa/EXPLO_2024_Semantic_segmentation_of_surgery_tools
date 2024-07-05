@@ -8,4 +8,3 @@ Pillow==9.2.0
 requests
 scikit-image
 gdown
-os
