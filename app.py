@@ -14,7 +14,7 @@ from PIL import Image
 import gdown
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
-
+import os
 
 def jaccard_distance_loss(y_true, y_pred,smooth = 100):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
@@ -40,6 +40,22 @@ output1 = 'best_model_final3'
 gdown.download(url1, output1, quiet=False)
 
 # Load the saved model
+
+# Check if the file exists
+if os.path.exists(output1):
+    print(f"Found model file at {output1}")
+
+    # Assuming you have custom loss and metrics defined
+    custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric}
+
+    # Load the model
+    try:
+        model = load_model(output1, custom_objects=custom_objects)
+        print("Model loaded successfully!")
+    except Exception as e:
+        print("Error loading model:", e)
+else:
+    print(f"Model file {output1} not found.")
 with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
     model = load_model(output1, custom_objects={'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef, 'iou_metric': iou_metric})  # Replace with your model file path
 
