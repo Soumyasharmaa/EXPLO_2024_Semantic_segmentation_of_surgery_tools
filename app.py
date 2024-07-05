@@ -16,6 +16,18 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 
 
+url1 = 'https://drive.google.com/file/d/17l8vJkvTgJy1qLOsy6FYukRJgWEyQNvN/view?usp=drive_link'
+output1 = 'U_NET_Pretrained.h5'
+
+gdown.download(url1, output1, quiet=False)
+
+# Load the saved model
+with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
+    model = load_model(output1)  # Replace with your model file path
+
+
+
+
 def jaccard_distance_loss(y_true, y_pred,smooth = 100):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
     sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
@@ -28,56 +40,27 @@ def dice_coef(y_true, y_pred):
     intersection = K.sum(y_true_f * y_pred_f)
     return (2. * intersection + K.epsilon()) / (K.sum(y_true_f) + K.sum(y_pred_f) + K.epsilon())
 
-def make_prediction(image,shape):
+def make_prediction(model,image,shape):
     img = img_to_array(load_img(image,target_size=shape))
     img = np.expand_dims(img,axis=0)/255.
     mask = model.predict(img)
 
     mask = (mask[0] > 0.5)*1
 #     print(np.unique(mask,return_counts=True))
-    # if model == VGG16:
-    #   mask = np.reshape(mask,(960,960))
-    #   return mask
+    if model == VGG16:
+      mask = np.reshape(mask,(960,960))
+      return mask
     mask = np.reshape(mask,(224,224))
     return mask
 
 
-
-
-# # Load the saved model
-# with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-#     model = load_model('Soumyasharmaa/EXPLO_2024_Semantic_segmentation_of_surgery_tools/best_model_final.h5')  # Replace with your model file path
-#############################################
-# Download the model weights
-# URL and output file name
-url1 = 'https://drive.google.com/uc?id=1Uko0xXO5k0clmRO5F1kOzyiJun69con9'
-output1 = 'best_model_final.h5'
-
-
-gdown.download(url1, output1, quiet=False)
-import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
-
-
-# Assuming you have custom loss and metrics defined
-custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
-
-# Assuming you have custom loss and metrics defined
-custom_objects = {'jaccard_distance_loss': jaccard_distance_loss, 'dice_coef': dice_coef}
-
-# Define your optimizer
-optimizer = Adam()
-
-# Load the model with optimizer and custom objects
-model = load_model(output1, custom_objects=custom_objects, compile=False)
-model.compile(optimizer=optimizer)  # Compile with the same optimizer settings used during training
 
 ######################################### vGG 16
 from skimage.io import imread
 from skimage.transform import resize
 
 # function to predict result
-def predict_image(img_path):
+def predict_image(img_path, model):
     H = 480
     W = 480
     num_classes = 4
@@ -122,8 +105,8 @@ custom_objects = {'BatchNormalization': tf.keras.layers.BatchNormalization}
 # Register the custom metric function
 tf.keras.utils.get_custom_objects()['iou_score'] = iou_score
 tf.keras.utils.get_custom_objects()['f1-score'] = f1_score
-# # Load the model with custom objects
-# VGG16 = tf.keras.models.load_model('/content/drive/MyDrive/Explo_2024_sem4/VGG16.h5', custom_objects=custom_objects)
+# Load the model with custom objects
+VGG16 = tf.keras.models.load_model('/content/drive/MyDrive/Explo_2024_sem4/VGG16.h5', custom_objects=custom_objects)
 
 st.title('Exploratory Project : Surgery Tools segmentation application ')
 
@@ -149,7 +132,7 @@ if option == 'U_Net':
         #img = load_preprocess_image(str(img))
 
         st.image(img/255.)
-        mask = make_prediction(image,(224,224,3))
+        mask = make_prediction(model,image,(224,224,3))
         mask2 = cv2.merge([mask,mask,mask]).astype('float32')
         #st.write(img.shape,mask2.shape)
         mask2 = cv2.resize(mask2,(img.shape[1],img.shape[0]))
