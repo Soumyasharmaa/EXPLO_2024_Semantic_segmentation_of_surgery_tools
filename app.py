@@ -34,8 +34,8 @@ def iou_metric(y_true, y_pred, smooth=1):
     union = K.sum(y_true, axis=-1) + K.sum(y_pred, axis=-1) - intersection
     return (intersection + smooth) / (union + smooth)
 
-url1 = 'https://drive.google.com/file/d/1-hmf_Fd3P4xAIFXt768GEefN85tzAWQT/view?usp=drive_link'
-output1 = 'best_model_final3'
+url1 = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=sharing'
+output1 = 'best_model_final3.h5'
 
 gdown.download(url1, output1, quiet=False)
 
