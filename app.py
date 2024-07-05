@@ -11,7 +11,7 @@ import cv2
 #from streamlit import caching
 from PIL import Image
 #from preprocessing_images import *
-
+import gdown
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 
@@ -35,9 +35,9 @@ def make_prediction(image,shape):
 
     mask = (mask[0] > 0.5)*1
 #     print(np.unique(mask,return_counts=True))
-    if model == VGG16:
-      mask = np.reshape(mask,(960,960))
-      return mask
+    # if model == VGG16:
+    #   mask = np.reshape(mask,(960,960))
+    #   return mask
     mask = np.reshape(mask,(224,224))
     return mask
 
