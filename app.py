@@ -16,7 +16,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 
 
-url1 = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=drive_link'
+url1 = 'https://drive.google.com/drive/folders/1xptXoHHBXtoaQRIQKZr1I7vABukGlTjh?usp=sharing'
 output1 = 'best_model_final3'
 
 gdown.download(url1, output1, quiet=False)
