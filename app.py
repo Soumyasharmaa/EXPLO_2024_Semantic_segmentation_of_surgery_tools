@@ -58,9 +58,9 @@ try:
     print("Download successful!")
 except Exception as e:
     print("Error downloading file:", e)
-    
+
 with custom_object_scope({'jaccard_distance_loss': jaccard_distance_loss,'dice_coef': dice_coef}):
-    model = load_model(output1)  # Replace with your model file path
+    model = load_model('U_Net_model.h5')  # Replace with your model file path
 
 ######################################### vGG 16
 from skimage.io import imread
