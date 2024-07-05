@@ -15,8 +15,9 @@ from PIL import Image
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 ##########################################################
-import streamlit as st
-from tensorflow.keras.models import load_model
+
+import urllib.request
+import os
 import tempfile
 
 def download_model_weights(url):
